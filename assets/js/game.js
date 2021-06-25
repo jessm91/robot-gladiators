@@ -38,8 +38,17 @@ var fightOrSkip = function() {
 
 var fight = function(enemy) {
 
+    //keep track of who goes first
+    var isPlayerTurn = true;
+
+    //randomly change turn order
+    if (Math.random() > 0.5) {
+        isPlayerTurn = false;
+    }
+
     //repeat and execute as long as the enemy-robot is alive
     while(enemy.health > 0 && playerInfo.health > 0) {
+        if (isPlayerTurn) {
         // ask player if they'd like to fight or skip using fightOrSkip function
         if (fightOrSkip()) {
             // if true, leave fight by breaking loop
@@ -82,6 +91,9 @@ var fight = function(enemy) {
         window.alert(playerInfo.name + " still has " + playerInfo.health + " health left.");
         }
     }
+    //switch turn order for next round
+    isPlayerTurn = !isPlayerTurn;
+}
 };
 
 
@@ -150,20 +162,19 @@ var endGame = function() {
 
 var shop = function() {
     // ask player what they'd like to do
-    var shopOptionPrompt = window.prompt("Would you like to REFILL your health, UPGRADE your attack, or LEAVE the store? Please enter one: 'REFILL', 'UPGRADE', or 'LEAVE' to make a choice.");  
+    var shopOptionPrompt = window.prompt("Would you like to REFILL your health, UPGRADE your attack, or LEAVE the store? Please enter one: 1 for REFILL, 2 for UPGRADE, or 3 for LEAVE.");  
+
+    shopOptionPrompt = parseInt(shopOptionPrompt);
 
     // use switch to carry out action
     switch (shopOptionPrompt) {
-        case "REFILL": // new case
-        case "refill":
+        case 1:
             playerInfo.refillHealth();
             break;
-            case "UPGRADE": // new case
-            case "upgrade":
+        case 2:
             playerInfo.upgradeAttack();
             break;
-            case "LEAVE": // new case
-            case "leave":
+        case 3:
                 window.alert("Leaving the store.");
             
             // do nothing, so function will end
